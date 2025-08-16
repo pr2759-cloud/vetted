@@ -1,0 +1,73 @@
+{
+  "name": "vetted",
+  "version": "1.0.0",
+  "description": "AI-powered product discovery platform with sentiment analysis",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "start": "concurrently \"npm run backend:start\" \"npm run frontend:start\"",
+    "build": "npm run frontend:build && npm run backend:build",
+    "test": "concurrently \"npm run backend:test\" \"npm run frontend:test\"",
+    "lint": "concurrently \"npm run backend:lint\" \"npm run frontend:lint\"",
+    "lint:fix": "concurrently \"npm run backend:lint:fix\" \"npm run frontend:lint:fix\"",
+    "format": "concurrently \"npm run backend:format\" \"npm run frontend:format\"",
+    "type-check": "npm run frontend:type-check",
+    "setup": "npm install && npm run backend:install && npm run frontend:install",
+    "backend:install": "cd backend && npm install",
+    "frontend:install": "cd frontend && npm install",
+    "backend:dev": "cd backend && npm run dev",
+    "backend:start": "cd backend && npm start",
+    "backend:build": "cd backend && npm run build",
+    "backend:test": "cd backend && npm test",
+    "backend:lint": "cd backend && npm run lint",
+    "backend:lint:fix": "cd backend && npm run lint:fix",
+    "backend:format": "cd backend && npm run format",
+    "frontend:dev": "cd frontend && npm start",
+    "frontend:start": "cd frontend && npm start",
+    "frontend:build": "cd frontend && npm run build",
+    "frontend:test": "cd frontend && npm test",
+    "frontend:lint": "cd frontend && npm run lint",
+    "frontend:lint:fix": "cd frontend && npm run lint:fix",
+    "frontend:format": "cd frontend && npm run format",
+    "frontend:type-check": "cd frontend && npm run type-check",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "db:migrate": "cd backend && npm run migrate",
+    "db:seed": "cd backend && npm run seed",
+    "db:seed:dev": "cd backend && npm run seed:dev",
+    "clean": "rm -rf node_modules backend/node_modules frontend/node_modules",
+    "clean:build": "rm -rf backend/dist frontend/build"
+  },
+  "keywords": [
+    "product-discovery",
+    "sentiment-analysis",
+    "ai",
+    "e-commerce",
+    "react",
+    "nodejs",
+    "typescript"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/vetted.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/vetted/issues"
+  },
+  "homepage": "https://github.com/yourusername/vetted#readme"
+}
