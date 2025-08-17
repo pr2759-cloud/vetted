@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Star, TrendingUp, TrendingDown, Minus, Sparkles } from 'lucide-react';
+import { Star, TrendingUp, TrendingDown, Minus, Sparkles, Plus, Check } from 'lucide-react';
 
 import { Product } from '../../types';
 import { SentimentBadge } from './SentimentBadge';
@@ -8,6 +8,8 @@ import { SentimentBadge } from './SentimentBadge';
 interface ProductCardProps {
   product: Product;
   onClick?: (product: Product) => void;
+  onCompare?: (product: Product) => void;
+  isInCompare?: boolean;
   showSentiment?: boolean;
   compact?: boolean;
   loading?: boolean;
@@ -16,6 +18,8 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onClick,
+  onCompare,
+  isInCompare = false,
   showSentiment = true,
   compact = false,
   loading = false
@@ -32,6 +36,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const handleClick = () => {
     if (onClick && !loading) {
       onClick(product);
+    }
+  };
+
+  const handleCompare = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click
+    if (onCompare && !loading) {
+      onCompare(product);
     }
   };
 
@@ -89,6 +100,33 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <Star className="w-3 h-3 text-yellow-400 fill-current" />
           <span className="text-xs font-semibold text-gray-700">{product.rating || 'N/A'}</span>
         </div>
+
+        {/* Compare Button */}
+        {onCompare && (
+          <button
+            onClick={handleCompare}
+            className={`
+              absolute top-3 left-3 px-3 py-1.5 rounded-full backdrop-blur-sm transition-all duration-200 z-10 flex items-center space-x-1 text-xs font-medium
+              ${isInCompare 
+                ? 'bg-blue-500 text-white shadow-lg' 
+                : 'bg-white/95 text-gray-700 hover:bg-blue-50 hover:text-blue-600'
+              }
+            `}
+            title={isInCompare ? 'Remove from compare' : 'Add to compare'}
+          >
+            {isInCompare ? (
+              <>
+                <Check className="w-3 h-3" />
+                <span>Added</span>
+              </>
+            ) : (
+              <>
+                <Plus className="w-3 h-3" />
+                <span>Compare</span>
+              </>
+            )}
+          </button>
+        )}
         
         {/* Product image or placeholder */}
         {product.images && product.images.length > 0 ? (

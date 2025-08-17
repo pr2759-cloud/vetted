@@ -1,12 +1,14 @@
 import React, { useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, User, Star, Loader2, BarChart3, GitCompare, TrendingUp } from 'lucide-react';
+import { Bot, User, Star, Loader2, TrendingUp, DollarSign, Heart, Shield } from 'lucide-react';
 import { ChatMessage, Product } from '../../types';
 import { ProductCard } from '../product/ProductCard';
 
 interface ChatInterfaceProps {
   messages: ChatMessage[];
   onProductClick?: (product: Product) => void;
+  onProductCompare?: (product: Product) => void;
+  isProductInCompare?: (productId: string) => boolean;
   onFeatureAction?: (action: string) => void;
   loading?: boolean;
 }
@@ -14,6 +16,8 @@ interface ChatInterfaceProps {
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   messages,
   onProductClick,
+  onProductCompare,
+  isProductInCompare,
   onFeatureAction,
   loading = false
 }) => {
@@ -106,6 +110,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                           <ProductCard 
                             product={product} 
                             onClick={onProductClick}
+                            onCompare={onProductCompare}
+                            isInCompare={isProductInCompare ? isProductInCompare(product.id) : false}
                             compact={true}
                           />
                         </div>
@@ -126,13 +132,20 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                         </div>
                         <p className="text-sm text-slate-600 mb-6">Get deeper insights about these products</p>
                         
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
                           {[
                             { 
-                              action: 'pros and cons', 
-                              icon: <BarChart3 className="w-5 h-5" />, 
-                              label: 'Pros & Cons',
-                              description: 'Detailed analysis',
+                              action: 'community favorites', 
+                              icon: <Heart className="w-5 h-5" />, 
+                              label: 'Community Buzz',
+                              description: 'Trending & loved',
+                              gradient: 'from-pink-500 to-rose-600'
+                            },
+                            { 
+                              action: 'dermatologist recommended', 
+                              icon: <Shield className="w-5 h-5" />, 
+                              label: 'Derm Approved',
+                              description: 'Expert endorsed',
                               gradient: 'from-emerald-500 to-teal-600'
                             },
                             { 
@@ -143,11 +156,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                               gradient: 'from-violet-500 to-purple-600'
                             },
                             { 
-                              action: 'compare features', 
-                              icon: <GitCompare className="w-5 h-5" />, 
-                              label: 'Compare',
-                              description: 'Feature comparison',
-                              gradient: 'from-blue-500 to-indigo-600'
+                              action: 'dupe suggestions', 
+                              icon: <DollarSign className="w-5 h-5" />, 
+                              label: 'Dupes',
+                              description: 'Cheaper alternatives',
+                              gradient: 'from-orange-500 to-red-600'
                             }
                           ].map((item, index) => (
                             <motion.button

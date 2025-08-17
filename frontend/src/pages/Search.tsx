@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 
 import { SearchInput } from '../components/search/SearchInput';
 import { ChatInterface } from '../components/chat/ChatInterface';
+import { ComparisonModal } from '../components/product/ComparisonModal';
 import { useSearch } from '../hooks/useSearch';
 import { SearchResult, SearchFilters, ChatMessage, Product } from '../types';
 
@@ -18,6 +19,8 @@ export const Search: React.FC = () => {
   const [showChat, setShowChat] = useState(false);
   const [chatInput, setChatInput] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [compareProducts, setCompareProducts] = useState<Product[]>([]);
+  const [showCompareModal, setShowCompareModal] = useState(false);
   const [activeFilters, setActiveFilters] = useState<SearchFilters>({
     categories: [],
     priceRanges: [],
@@ -235,6 +238,28 @@ export const Search: React.FC = () => {
     return Object.values(activeFilters).reduce((total, filters) => total + (filters?.length || 0), 0);
   };
 
+  const handleCompareProduct = (product: Product) => {
+    setCompareProducts(prev => {
+      const isAlreadyInCompare = prev.some(p => p.id === product.id);
+      
+      if (isAlreadyInCompare) {
+        // Remove from compare
+        return prev.filter(p => p.id !== product.id);
+      } else if (prev.length < 3) {
+        // Add to compare (max 3 products)
+        return [...prev, product];
+      } else {
+        // Show alert when trying to add more than 3
+        alert('You can compare up to 3 products only. Please remove one to add another.');
+        return prev;
+      }
+    });
+  };
+
+  const isProductInCompare = (productId: string) => {
+    return compareProducts.some(p => p.id === productId);
+  };
+
   // Show initial interface if no search has been performed
   if (!showChat) {
     return (
@@ -394,6 +419,8 @@ export const Search: React.FC = () => {
           <ChatInterface
             messages={chatMessages}
             onProductClick={onProductClick}
+            onProductCompare={handleCompareProduct}
+            isProductInCompare={isProductInCompare}
             onFeatureAction={handleFeatureAction}
             loading={isLoading}
           />
@@ -414,6 +441,54 @@ export const Search: React.FC = () => {
             </motion.div>
           )}
         </div>
+
+        {/* Compare Prompt */}
+        {compareProducts.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="fixed bottom-24 right-6 bg-white/95 backdrop-blur-md rounded-2xl border border-blue-200/50 shadow-xl p-4 z-40"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="font-semibold text-gray-900">Compare Products</h4>
+              <button
+                onClick={() => setCompareProducts([])}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <p className="text-sm text-gray-600 mb-3">
+              {compareProducts.length} product{compareProducts.length !== 1 ? 's' : ''} selected
+            </p>
+            <div className="space-y-2 mb-4">
+              {compareProducts.map((product) => (
+                <div key={product.id} className="flex items-center justify-between text-sm">
+                  <span className="truncate max-w-[200px]">{product.name}</span>
+                  <button
+                    onClick={() => handleCompareProduct(product)}
+                    className="text-red-500 hover:text-red-700 ml-2"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </div>
+              ))}
+            </div>
+            {compareProducts.length >= 2 && (
+              <button
+                onClick={() => setShowCompareModal(true)}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+              >
+                Compare Now
+              </button>
+            )}
+            {compareProducts.length === 1 && (
+              <p className="text-xs text-gray-500 text-center">
+                Add at least 1 more product to compare
+              </p>
+            )}
+          </motion.div>
+        )}
 
         {/* Sticky Conversational Chatbox */}
         <div className="fixed bottom-6 left-0 right-0 flex justify-center z-50">
@@ -450,6 +525,13 @@ export const Search: React.FC = () => {
           </div>
           </motion.div>
         </div>
+
+        {/* Comparison Modal */}
+        <ComparisonModal
+          isOpen={showCompareModal}
+          onClose={() => setShowCompareModal(false)}
+          products={compareProducts}
+        />
       </div>
     </div>
   );
