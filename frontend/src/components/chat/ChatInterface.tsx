@@ -1,168 +1,31 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, User, Star, Loader2, Send, Filter, X, ChevronDown } from 'lucide-react';
-import { ChatMessage, Product, SearchFilters } from '../../types';
+import { Bot, User, Star, Loader2, BarChart3, GitCompare, TrendingUp } from 'lucide-react';
+import { ChatMessage, Product } from '../../types';
 import { ProductCard } from '../product/ProductCard';
 
 interface ChatInterfaceProps {
   messages: ChatMessage[];
-  onSendMessage: (message: string) => void;
   onProductClick?: (product: Product) => void;
+  onFeatureAction?: (action: string) => void;
   loading?: boolean;
-  onFiltersChange?: (filters: SearchFilters) => void;
 }
-
-const FILTER_OPTIONS = {
-  categories: ['Electronics', 'Home & Kitchen', 'Beauty', 'Fashion', 'Sports', 'Books'],
-  priceRanges: ['Under $25', '$25-$50', '$50-$100', '$100-$200', 'Over $200'],
-  ratings: ['4+ Stars', '3+ Stars', '2+ Stars'],
-  sentiments: ['Highly Regarded', 'Well Regarded', 'Mixed Reviews']
-};
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   messages,
-  onSendMessage,
   onProductClick,
-  loading = false,
-  onFiltersChange
+  onFeatureAction,
+  loading = false
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [inputValue, setInputValue] = useState('');
-  const [showFilters, setShowFilters] = useState(false);
-  const [activeFilters, setActiveFilters] = useState<SearchFilters>({
-    categories: [],
-    priceRanges: [],
-    ratings: [],
-    sentiments: []
-  });
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSendMessage = () => {
-    if (inputValue.trim() && !loading) {
-      onSendMessage(inputValue.trim());
-      setInputValue('');
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
-
-  const toggleFilter = (category: keyof SearchFilters, value: string) => {
-    setActiveFilters(prev => {
-      const currentList = prev[category] || [];
-      const isActive = currentList.includes(value);
-      const newList = isActive 
-        ? currentList.filter(item => item !== value)
-        : [...currentList, value];
-      
-      const newFilters = { ...prev, [category]: newList };
-      onFiltersChange?.(newFilters);
-      return newFilters;
-    });
-  };
-
-  const clearAllFilters = () => {
-    const emptyFilters: SearchFilters = {
-      categories: [],
-      priceRanges: [],
-      ratings: [],
-      sentiments: []
-    };
-    setActiveFilters(emptyFilters);
-    onFiltersChange?.(emptyFilters);
-  };
-
-  const getActiveFilterCount = () => {
-    return Object.values(activeFilters).flat().length;
-  };
-
-  const FilterChip = ({ label, isActive, onClick }: { label: string; isActive: boolean; onClick: () => void }) => (
-    <button
-      onClick={onClick}
-      className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border ${
-        isActive
-          ? 'bg-blue-500 text-white border-blue-500 shadow-md'
-          : 'bg-white text-gray-700 border-gray-300 hover:border-blue-300 hover:bg-blue-50'
-      }`}
-    >
-      {label}
-    </button>
-  );
-
   return (
     <div className="flex flex-col h-full">
-      {/* Compact Filters Bar */}
-      <div className="bg-white border-b border-gray-200 px-4 py-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <h3 className="text-sm font-medium text-gray-900">Filters</h3>
-            {getActiveFilterCount() > 0 && (
-              <span className="bg-blue-100 text-blue-800 text-xs rounded-full px-2 py-0.5">
-                {getActiveFilterCount()}
-              </span>
-            )}
-          </div>
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center space-x-1 text-sm text-gray-600 hover:text-gray-800"
-          >
-            <Filter className="w-4 h-4" />
-            <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
-          </button>
-        </div>
-
-        {/* Filter Options */}
-        {showFilters && (
-          <div className="mt-3 space-y-3">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Categories</label>
-                <div className="flex flex-wrap gap-1">
-                  {FILTER_OPTIONS.categories.slice(0, 3).map(category => (
-                    <FilterChip
-                      key={category}
-                      label={category}
-                      isActive={activeFilters.categories?.includes(category) || false}
-                      onClick={() => toggleFilter('categories', category)}
-                    />
-                  ))}
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Price Range</label>
-                <div className="flex flex-wrap gap-1">
-                  {FILTER_OPTIONS.priceRanges.slice(0, 3).map(range => (
-                    <FilterChip
-                      key={range}
-                      label={range}
-                      isActive={activeFilters.priceRanges?.includes(range) || false}
-                      onClick={() => toggleFilter('priceRanges', range)}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-            {getActiveFilterCount() > 0 && (
-              <button
-                onClick={clearAllFilters}
-                className="text-xs text-gray-500 hover:text-red-500 flex items-center space-x-1"
-              >
-                <X className="w-3 h-3" />
-                <span>Clear filters</span>
-              </button>
-            )}
-          </div>
-        )}
-      </div>
-
       {/* Messages Container */}
       <div className="flex-1 space-y-6 overflow-y-auto px-4 py-4">
         <AnimatePresence initial={false}>
@@ -248,6 +111,72 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                         </div>
                       ))}
                     </div>
+
+                    {/* Modern Features Actions */}
+                    {onFeatureAction && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="mt-8 p-6 bg-gradient-to-br from-slate-50 to-blue-50/30 rounded-2xl border border-slate-200/60 backdrop-blur-sm"
+                      >
+                        <div className="flex items-center space-x-2 mb-4">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                          <h4 className="text-base font-semibold text-slate-800">Explore More</h4>
+                        </div>
+                        <p className="text-sm text-slate-600 mb-6">Get deeper insights about these products</p>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          {[
+                            { 
+                              action: 'pros and cons', 
+                              icon: <BarChart3 className="w-5 h-5" />, 
+                              label: 'Pros & Cons',
+                              description: 'Detailed analysis',
+                              gradient: 'from-emerald-500 to-teal-600'
+                            },
+                            { 
+                              action: 'alternatives', 
+                              icon: <TrendingUp className="w-5 h-5" />, 
+                              label: 'Alternatives',
+                              description: 'Similar products',
+                              gradient: 'from-violet-500 to-purple-600'
+                            },
+                            { 
+                              action: 'compare features', 
+                              icon: <GitCompare className="w-5 h-5" />, 
+                              label: 'Compare',
+                              description: 'Feature comparison',
+                              gradient: 'from-blue-500 to-indigo-600'
+                            }
+                          ].map((item, index) => (
+                            <motion.button
+                              key={item.action}
+                              onClick={() => onFeatureAction(item.action)}
+                              disabled={loading}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.4 + index * 0.1 }}
+                              whileHover={{ scale: 1.02, y: -2 }}
+                              whileTap={{ scale: 0.98 }}
+                              className="group relative p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200/50 hover:border-white shadow-sm hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
+                            >
+                              <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
+                              
+                              <div className="relative flex flex-col items-center text-center space-y-2">
+                                <div className={`p-2 rounded-lg bg-gradient-to-br ${item.gradient} text-white shadow-sm`}>
+                                  {item.icon}
+                                </div>
+                                <div>
+                                  <div className="font-medium text-slate-800 text-sm">{item.label}</div>
+                                  <div className="text-xs text-slate-500">{item.description}</div>
+                                </div>
+                              </div>
+                            </motion.button>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
                   </div>
                 )}
                 
@@ -290,51 +219,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div className="border-t border-gray-200 px-4 py-3">
-        <div className="flex items-end space-x-3">
-          <div className="flex-1 relative">
-            <textarea
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Ask me about any product..."
-              className="w-full px-4 py-2 pr-10 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 resize-none"
-              rows={1}
-              disabled={loading}
-            />
-            <button
-              onClick={handleSendMessage}
-              disabled={!inputValue.trim() || loading}
-              className={`
-                absolute right-2 top-2 w-6 h-6 rounded-md flex items-center justify-center transition-colors
-                ${inputValue.trim() && !loading
-                  ? 'bg-blue-500 text-white hover:bg-blue-600'
-                  : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                }
-              `}
-            >
-              <Send className="w-3 h-3" />
-            </button>
-          </div>
-        </div>
-        
-        {/* Quick suggestions */}
-        <div className="mt-2 flex flex-wrap gap-2">
-          {['pros and cons', 'alternatives', 'compare features'].map((suggestion) => (
-            <button
-              key={suggestion}
-              onClick={() => {
-                setInputValue(suggestion);
-              }}
-              disabled={loading}
-              className="px-2 py-1 text-xs bg-gray-100 hover:bg-blue-100 text-gray-700 hover:text-blue-700 rounded-md transition-colors border border-gray-200 hover:border-blue-300"
-            >
-              {suggestion}
-            </button>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };

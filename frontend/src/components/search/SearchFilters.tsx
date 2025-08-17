@@ -39,15 +39,14 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
   const filterCategories = {
     categories: {
       icon: <Tag className="w-4 h-4" />,
-      title: 'Categories',
+      title: 'Skincare Categories',
       options: [
-        'Skincare & Beauty',
-        'Tech Accessories', 
-        'Fitness & Wellness',
-        'Home & Kitchen',
-        "Men's Grooming",
-        'Electronics',
-        'Health & Nutrition'
+        'Face Cleansers',
+        'Serums & Treatments',
+        'Moisturizers',
+        'Sun Protection',
+        'Masks & Exfoliants',
+        'Eye Care'
       ]
     },
     priceRanges: {
@@ -93,16 +92,16 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
     },
     features: {
       icon: <Zap className="w-4 h-4" />,
-      title: 'Special Features',
+      title: 'Skincare Features',
       options: [
         'Organic/Natural',
         'Cruelty-Free',
         'Vegan',
-        'Wireless',
-        'Smart Features',
-        'Portable',
-        'Water-Resistant',
-        'Long-Lasting'
+        'Fragrance-Free',
+        'Hypoallergenic',
+        'Non-Comedogenic',
+        'Dermatologist Tested',
+        'Sensitive Skin Friendly'
       ]
     }
   };

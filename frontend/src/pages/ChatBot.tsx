@@ -115,7 +115,6 @@ export const ChatBot: React.FC = () => {
               <div className="h-full p-6">
                 <ChatInterface
                   messages={messages}
-                  onSendMessage={sendMessage}
                   onProductClick={handleProductClick}
                   loading={loading}
                 />

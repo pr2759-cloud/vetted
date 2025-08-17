@@ -47,76 +47,90 @@ const CACHE_TTL = {
   VERY_LONG: 24 * 60 * 60 // 24 hours
 };
 
-// Product Categories
+// Skincare Product Categories
 const PRODUCT_CATEGORIES = {
-  SKINCARE_BEAUTY: {
-    id: 'skincare-beauty',
-    name: 'Skincare & Beauty',
-    keywords: ['skincare', 'beauty', 'cosmetics', 'makeup', 'serum', 'cream', 'moisturizer'],
+  FACE_CLEANSERS: {
+    id: 'face-cleansers',
+    name: 'Face Cleansers',
+    keywords: ['cleanser', 'face wash', 'gel cleanser', 'foam cleanser', 'oil cleanser', 'micellar water'],
     subcategories: [
-      'Anti-aging',
-      'Acne Treatment',
+      'Gel Cleansers',
+      'Cream Cleansers',
+      'Oil Cleansers',
+      'Micellar Water',
+      'Exfoliating Cleansers',
+      'Foam Cleansers',
+      'Balm Cleansers'
+    ]
+  },
+  SERUMS_TREATMENTS: {
+    id: 'serums-treatments',
+    name: 'Serums & Treatments',
+    keywords: ['serum', 'treatment', 'vitamin c', 'retinol', 'niacinamide', 'hyaluronic acid', 'peptides'],
+    subcategories: [
+      'Vitamin C Serums',
+      'Retinol & Retinoids',
+      'Niacinamide',
+      'Hyaluronic Acid',
+      'Anti-aging Serums',
+      'Acne Treatments',
+      'Brightening Serums'
+    ]
+  },
+  MOISTURIZERS: {
+    id: 'moisturizers',
+    name: 'Moisturizers',
+    keywords: ['moisturizer', 'cream', 'lotion', 'gel moisturizer', 'night cream', 'day cream'],
+    subcategories: [
+      'Day Moisturizers',
+      'Night Creams',
+      'Gel Moisturizers',
+      'Anti-aging Creams',
       'Sensitive Skin',
-      'Natural/Organic',
-      'K-beauty',
-      'Makeup',
-      'Hair Care'
+      'Oil-free',
+      'Heavy Creams'
     ]
   },
-  TECH_ACCESSORIES: {
-    id: 'tech-accessories',
-    name: 'Tech Accessories',
-    keywords: ['tech', 'technology', 'wireless', 'bluetooth', 'charger', 'cable', 'case'],
+  SUN_PROTECTION: {
+    id: 'sun-protection',
+    name: 'Sun Protection',
+    keywords: ['sunscreen', 'spf', 'sun protection', 'uv protection', 'mineral sunscreen', 'chemical sunscreen'],
     subcategories: [
-      'Phone Accessories',
-      'Audio Equipment',
-      'Charging Solutions',
-      'Computer Accessories',
-      'Gaming Gear',
-      'Smart Home',
-      'Wearables'
+      'Mineral Sunscreens',
+      'Chemical Sunscreens',
+      'Tinted Sunscreens',
+      'Body Sunscreens',
+      'Sport Sunscreens',
+      'Sensitive Skin SPF',
+      'Anti-aging SPF'
     ]
   },
-  MENS_GROOMING: {
-    id: 'mens-grooming',
-    name: "Men's Grooming",
-    keywords: ['mens', 'grooming', 'beard', 'shaving', 'cologne', 'hair'],
+  MASKS_EXFOLIANTS: {
+    id: 'masks-exfoliants',
+    name: 'Masks & Exfoliants',
+    keywords: ['mask', 'exfoliant', 'scrub', 'peel', 'clay mask', 'sheet mask', 'chemical exfoliant'],
     subcategories: [
-      'Beard Care',
-      'Shaving',
-      'Hair Styling',
-      'Skin Care',
-      'Fragrances',
-      'Body Care',
-      'Tools & Accessories'
+      'Clay Masks',
+      'Sheet Masks',
+      'Overnight Masks',
+      'Chemical Exfoliants',
+      'Physical Scrubs',
+      'Peel-off Masks',
+      'Hydrating Masks'
     ]
   },
-  FITNESS_WELLNESS: {
-    id: 'fitness-wellness',
-    name: 'Fitness & Wellness',
-    keywords: ['fitness', 'workout', 'exercise', 'health', 'wellness', 'nutrition'],
+  EYE_CARE: {
+    id: 'eye-care',
+    name: 'Eye Care',
+    keywords: ['eye cream', 'eye serum', 'under eye', 'dark circles', 'eye patches', 'anti-aging eye'],
     subcategories: [
-      'Home Gym',
-      'Cardio Equipment',
-      'Strength Training',
-      'Yoga & Pilates',
-      'Sports Accessories',
-      'Recovery Tools',
-      'Supplements'
-    ]
-  },
-  HOME_KITCHEN: {
-    id: 'home-kitchen',
-    name: 'Home & Kitchen',
-    keywords: ['home', 'kitchen', 'cooking', 'appliance', 'gadget', 'utensil'],
-    subcategories: [
-      'Smart Kitchen',
-      'Cooking Tools',
-      'Storage & Organization',
-      'Small Appliances',
-      'Coffee & Tea',
-      'Cleaning Supplies',
-      'Home Decor'
+      'Eye Creams',
+      'Eye Serums',
+      'Eye Patches',
+      'Dark Circle Treatment',
+      'Anti-aging Eye',
+      'Puffy Eyes',
+      'Eye Masks'
     ]
   }
 };
@@ -350,60 +364,69 @@ const DATABASE_CONFIG = {
   }
 };
 
-// Suggested Searches by Category
+// Suggested Searches by Skincare Category
 const SUGGESTED_SEARCHES = {
   DEFAULT: [
     'vitamin C serums for dark spots',
-    'wireless earbuds under $100',
-    'beard oils for coarse hair',
-    'resistance bands for home workouts',
-    'smart kitchen gadgets under $50',
-    'natural skincare for sensitive skin'
+    'gentle cleansers for sensitive skin',
+    'retinol for beginners',
+    'hydrating moisturizers for dry skin',
+    'mineral sunscreen for daily use',
+    'niacinamide for large pores'
   ],
   
-  SKINCARE_BEAUTY: [
-    'anti-aging serums',
-    'acne treatment products',
-    'natural moisturizers',
-    'K-beauty essentials',
-    'sensitive skin products',
-    'vitamin C serums'
+  FACE_CLEANSERS: [
+    'gentle foaming cleansers',
+    'double cleansing routine',
+    'oil cleansers for makeup removal',
+    'exfoliating cleansers',
+    'micellar water for sensitive skin',
+    'cream cleansers for dry skin'
   ],
   
-  TECH_ACCESSORIES: [
-    'iPhone accessories',
-    'wireless charging pads',
-    'bluetooth speakers',
-    'gaming headsets',
-    'USB-C cables',
-    'phone cases'
+  SERUMS_TREATMENTS: [
+    'vitamin C serums',
+    'retinol for beginners',
+    'niacinamide serums',
+    'hyaluronic acid treatments',
+    'anti-aging peptides',
+    'acne spot treatments'
   ],
   
-  MENS_GROOMING: [
-    'beard growth oils',
-    'electric shavers',
-    'mens moisturizers',
-    'hair styling products',
-    'cologne recommendations',
-    'grooming kits'
+  MOISTURIZERS: [
+    'lightweight gel moisturizers',
+    'rich night creams',
+    'oil-free moisturizers',
+    'anti-aging moisturizers',
+    'moisturizers for sensitive skin',
+    'hydrating day creams'
   ],
   
-  FITNESS_WELLNESS: [
-    'home gym equipment',
-    'yoga accessories',
-    'protein shakers',
-    'resistance bands',
-    'fitness trackers',
-    'recovery tools'
+  SUN_PROTECTION: [
+    'mineral sunscreens',
+    'tinted sunscreens',
+    'SPF for sensitive skin',
+    'anti-aging sunscreens',
+    'reef-safe sunscreens',
+    'zinc oxide sunscreens'
   ],
   
-  HOME_KITCHEN: [
-    'smart kitchen gadgets',
-    'coffee accessories',
-    'storage containers',
-    'cooking utensils',
-    'small appliances',
-    'organization tools'
+  MASKS_EXFOLIANTS: [
+    'clay masks for oily skin',
+    'hydrating sheet masks',
+    'gentle chemical exfoliants',
+    'overnight sleeping masks',
+    'pore-minimizing masks',
+    'brightening face masks'
+  ],
+  
+  EYE_CARE: [
+    'under-eye creams',
+    'dark circle treatments',
+    'anti-aging eye serums',
+    'hydrating eye patches',
+    'caffeine eye creams',
+    'retinol eye treatments'
   ]
 };
 

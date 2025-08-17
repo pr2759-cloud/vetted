@@ -11,7 +11,7 @@ interface SuggestedSearchesProps {
 export const SuggestedSearches: React.FC<SuggestedSearchesProps> = ({
   suggestions,
   onSelectSuggestion,
-  title = 'Popular searches:'
+  title = 'Popular skincare searches:'
 }) => {
   if (!suggestions.length) return null;
 

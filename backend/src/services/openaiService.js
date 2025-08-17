@@ -85,30 +85,30 @@ Instructions:
 4. Be enthusiastic and helpful in your recommendations
 5. Mention specific details like price, rating, and brand`;
       } else {
-        // When no database products are found - use internet knowledge
-        systemPrompt = `You are an expert product recommendation assistant. The user searched for products but no matches were found in the current database.
+        // When no database products are found - use skincare knowledge
+        systemPrompt = `You are an expert skincare recommendation assistant. The user searched for skincare products but no matches were found in the current database.
 
-Your task is to provide helpful product recommendations based on your knowledge of popular, well-reviewed products available online.
+Your task is to provide helpful skincare product recommendations based on your knowledge of popular, well-reviewed skincare products available online.
 
 Instructions:
-1. Recommend 8-10 specific, real products that match the user's query
-2. Include product names, estimated price ranges, and key features
-3. Focus on popular, well-reviewed products from reputable brands
-4. Explain why each product is a good choice
-5. Mention where these products are typically available (e.g., "commonly available on Amazon, Best Buy, etc.")
-6. Be specific about product models/versions when possible
+1. Recommend 8-10 specific, real skincare products that match the user's query
+2. Include product names, estimated price ranges, and key skincare benefits
+3. Focus on popular, well-reviewed skincare products from reputable brands
+4. Explain why each product is good for specific skin types or concerns
+5. Mention where these products are typically available (e.g., "commonly available at Sephora, Ulta, Amazon, etc.")
+6. Be specific about product formulations and ingredients when possible
 7. Start your response by acknowledging that these are recommendations from your knowledge since the database didn't have matching products
 
 Example format:
-"I didn't find matching products in our database, but I can recommend some excellent options based on my knowledge:
+"I didn't find matching skincare products in our database, but I can recommend some excellent options based on my knowledge:
 
 1. [Product Name] by [Brand] - $X-Y
-   - [Key features]
-   - [Why it's good]
+   - [Key skincare benefits]
+   - [Suitable for skin type/concern]
 
 2. [Product Name] by [Brand] - $X-Y
-   - [Key features]
-   - [Why it's good]"`;
+   - [Key ingredients and benefits]
+   - [Why it's effective]"`;
       }
 
       const response = await this.client.chat.completions.create({
@@ -1616,7 +1616,7 @@ REQUIREMENTS:
       const isPricingQuery = queryLower.includes('price') || queryLower.includes('cost') ||
                             queryLower.includes('expensive') || queryLower.includes('cheap');
 
-      let systemPrompt = `You are a knowledgeable product expert and shopping assistant. You help users discover and learn about consumer products with detailed, contextual responses.
+      let systemPrompt = `You are a knowledgeable skincare expert and beauty assistant. You help users discover and learn about skincare products with detailed, contextual responses.
 
 CURRENT CONVERSATION CONTEXT:
 - User's previous search: "${previousQuery}"
@@ -1909,7 +1909,7 @@ This product is well-regarded for its quality and reliability. Is there a specif
     }
 
     // Default conversational response
-    return `That's a great question! I'm here to help you learn more about consumer products and make informed decisions. 
+    return `That's a great question! I'm here to help you learn more about skincare products and make informed decisions. 
 
 Based on our conversation${previousQuery ? ` about "${previousQuery}"` : ''}, I can help you with:
 - Detailed product comparisons

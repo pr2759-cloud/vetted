@@ -9,17 +9,18 @@ import { SuggestedSearches } from '../components/search/SuggestedSearches';
 
 const suggestedSearches = [
   'vitamin C serums for dark spots',
-  'wireless earbuds under $100', 
-  'beard oils for coarse hair',
-  'resistance bands for home workouts'
+  'gentle cleansers for sensitive skin', 
+  'retinol for beginners',
+  'hydrating moisturizers for dry skin'
 ];
 
 const categories = [
-  'Skincare & Beauty',
-  'Fitness & Wellness',
-  'Men\'s Grooming',
-  'Tech Accessories',
-  'Home & Kitchen'
+  'Face Cleansers',
+  'Serums & Treatments',
+  'Moisturizers',
+  'Sun Protection',
+  'Masks & Exfoliants',
+  'Eye Care'
 ];
 
 export const Home: React.FC = () => {
@@ -56,7 +57,7 @@ export const Home: React.FC = () => {
               className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full text-primary-600 font-medium text-sm mb-6 border border-primary-100"
             >
               <CheckCircle className="w-4 h-4" />
-              <span>Discover amazing products across the internet</span>
+              <span>Discover amazing skincare products</span>
             </motion.div>
 
             {/* Main Title */}
@@ -66,7 +67,7 @@ export const Home: React.FC = () => {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-6 leading-tight"
             >
-              Discover products you'll{' '}
+              Discover skincare you'll{' '}
               <span className="text-gradient bg-gradient-to-r from-primary-500 to-blue-500 bg-clip-text text-transparent">
                 actually love
               </span>
@@ -79,8 +80,8 @@ export const Home: React.FC = () => {
               transition={{ delay: 0.4, duration: 0.6 }}
               className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed"
             >
-              Explore thousands of products with intelligent discovery. Find hidden gems, 
-              trending items, and authentic user experiences from across the web.
+              Explore thousands of skincare products with intelligent discovery. Find hidden gems, 
+              trending items, and authentic user experiences from the skincare community.
             </motion.p>
 
             {/* Search Box */}
@@ -94,7 +95,7 @@ export const Home: React.FC = () => {
                 value={searchQuery}
                 onChange={setSearchQuery}
                 onSubmit={handleSearch}
-                placeholder="Discover products, e.g. 'wireless chargers for iPhone' or 'retinol creams for beginners'"
+                placeholder="Discover skincare, e.g. 'vitamin C serums for dark spots' or 'gentle cleansers for sensitive skin'"
                 autoFocus
               />
             </motion.div>
@@ -145,7 +146,7 @@ export const Home: React.FC = () => {
                 Intelligent Discovery
               </h3>
               <p className="text-gray-600 text-sm">
-                AI-powered search finds products you never knew existed but will absolutely love.
+                AI-powered search finds skincare products you never knew existed but will absolutely love.
               </p>
             </div>
 
@@ -158,7 +159,7 @@ export const Home: React.FC = () => {
                 Sentiment Analysis
               </h3>
               <p className="text-gray-600 text-sm">
-                Real-time sentiment analysis from thousands of reviews and social mentions.
+                Real-time sentiment analysis from thousands of skincare reviews and social mentions.
               </p>
             </div>
 
@@ -171,7 +172,7 @@ export const Home: React.FC = () => {
                 Vetted Quality
               </h3>
               <p className="text-gray-600 text-sm">
-                Every product recommendation is carefully analyzed for quality and authenticity.
+                Every skincare recommendation is carefully analyzed for quality and authenticity.
               </p>
             </div>
           </div>
